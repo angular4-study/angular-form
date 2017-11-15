@@ -19,10 +19,11 @@
 ## 2. 响应式表单
 - 首先，编码来创建一个数据模型，然后使用一些指令将模板中的HTML元素连接到这个数据模型上。
 - 数据模型指一个用来保存表单数据的数据结构，由定义在```@angular/forms```中的FormControl，FormGroup,
-FormGroup三个类组成。
+FormArray三个类组成。
 - FormControl： 是构成表单的基本单位，通常情况下用来代表一个input元素，但是也可以用来代表日历，下拉选。。
-它保存着与之关联的HTML元素当前的值以及元素的校验状态。
-
+它保存着与之关联的HTML元素当前的值以及元素的校验状态。【如果一个FormControl是无效的，name整个FormGroup是无效的】
+- FormGroup: new的时候，需要FormControl作为入参，【代表一个固定长度的集合】
+- FormArray：与FormGroup类似，但是有一个额外的长度属性，通常【代表一个可以增长的集合】
 ------------------  
 - 使用响应式表单时，通过编写TypeScript代码而不是HTMl来创建一个底层的数据模型，在这个模型定义好
 以后，就可以使用一些特定的指令，将模板上的HTML元素与底层的数据模型连接在一起。
@@ -34,8 +35,16 @@ FormGroup三个类组成。
 FormGroup，FormArray等组成的。在模板式表单中，你是不能直接访问这些类的。
 - 响应式表单并不会替你生成HTML，模板需要自己编写。
 
+类名 | 指令 | 指令
+---|---|---
+FormGroup   | formGroup     | formGroupName
+FormControl | formControl   | formControlName
+FormArray   |               | formArrayName
 
+- 以name结尾的指令，只能用在formGroup的范围之内
 
+- FormBuilder: 是angular提供的一个工具。相对于上面三个类，简化了定义表单数据的语法。还可以提供
+更多的配置，比如参数校验。
 
 # AngularForm
 
