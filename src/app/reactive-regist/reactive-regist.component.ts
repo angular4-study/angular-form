@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {equalValidate, mobileAsyncValidate, mobileValidate} from '../validator/validators';
 
 @Component({
   selector: 'app-reactive-regist',
@@ -10,7 +11,6 @@ import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 export class ReactiveRegistComponent implements OnInit {
 
   formModel: FormGroup;
-
 
   constructor(fb: FormBuilder) {
     // 使用普通方式构建响应式表单
@@ -24,17 +24,24 @@ export class ReactiveRegistComponent implements OnInit {
     });*/
     // 使用FormBuilder构建响应式表单
     this.formModel = fb.group({
-      username: [''],
-      mobile: [''],
+      // Validators是angular自带的校验器，提供一些基本校验方法
+      username: ['', [Validators.required, Validators.minLength(6)]],
+      mobile: ['', mobileValidate, mobileAsyncValidate],
       passwordsGroup: fb.group({
-        password: [''],
+        password: ['', Validators.minLength(6)],
         pconfirm: ['']
-      })
+      }, {validator: equalValidate}) // 给group加校验器，必须是个对象
     });
   }
 
   onSubmit() {
-    console.log(this.formModel.value);
+    let isValid: boolean = this.formModel.get('username').valid;
+    console.log('username的校验结果', isValid);
+    let errors: any = this.formModel.get('username').errors;
+    console.log('username的校验结果error是', JSON.stringify(errors));
+    if (this.formModel.valid) {
+      console.log('整个表单校验成功：', this.formModel.value);
+    }
   }
 
   ngOnInit() {

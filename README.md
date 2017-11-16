@@ -46,6 +46,22 @@ FormArray   |               | formArrayName
 - FormBuilder: 是angular提供的一个工具。相对于上面三个类，简化了定义表单数据的语法。还可以提供
 更多的配置，比如参数校验。
 
+## 3. angular校验器
+- 同步校验
+  - 校验器就是一个普通的方法，接受一个类型是AbstractControl的参数，必须有一个返回值
+  - Validators是angular自带的校验器，提供一些基本的校验方法
+  - 也可以自定义校验方法
+- 异步校验(服务器来校验)
+  - return 一个 Observable
+
+## 4.angular状态字段
+- 
+
+
+
+
+
+
 # AngularForm
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.0.
