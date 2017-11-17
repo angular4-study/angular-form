@@ -54,11 +54,19 @@ FormArray   |               | formArrayName
 - 异步校验(服务器来校验)
   - return 一个 Observable
 
-## 4.angular状态字段
-- 
+## 4.angular状态字段（任何一个字段的状态即代表整个表单的整体状态）
+- 校验响应式表单
+  - 在代码里构建表单结构，然后与模板绑起来。是同步到，可用的.
+  - **touched和untouched**: 用来判断用户是否访问过字段，也就是判断用户是否获取过**焦点**。
+  - **pristine和dirty**: 用来判断**字段值**有没有被改变过。
+  - **pending**: 当一个字段处于异步校验时，为true。
+- 校验模板式表单
+  - 1.需要自定义指令
+  - 2.在页面中使用这个指令
+  - 模板式表单的模型的值和状态的变更，是异步的，而且很难控制
 
-
-
+- 生成自定义指令：ng g directive directives/mobileValidator。相当于没有模板的组件。需要把校
+验器provider给这个自定义的校验指令
 
 
 

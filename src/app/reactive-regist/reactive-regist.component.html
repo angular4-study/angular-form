@@ -1,11 +1,23 @@
 <form [formGroup]="formModel" (submit)="onSubmit()">
-  <div>用户名：<input type="text" formControlName="username"></div>
-  <!-- 第一个参数是指定校验器return的key值，第二个是指定需要校验的字段,如果是嵌套
-   的话，第二个参数必须传一个数组['一级name', '二级name']-->
-  <div [hidden]="!formModel.hasError('required', 'username')">用户名必填</div>
-  <div [hidden]="!formModel.hasError('minlength', 'username')">用户名最小长度6</div>
+
+  <div>用户名：<input [class.isError]="formModel.get('username').invalid &&
+    formModel.get('username').touched" type="text" formControlName="username"></div>
+  <div [hidden]="formModel.get('username').valid || formModel.get('username').untouched">
+    <!-- 第一个参数是指定校验器return的key值，第二个是指定需要校验的字段,如果是嵌套
+     的话，第二个参数必须传一个数组['一级name', '二级name']-->
+    <div [hidden]="!formModel.hasError('required', 'username')">用户名必填</div>
+    <div [hidden]="!formModel.hasError('minlength', 'username')">用户名最小长度6</div>
+  </div>
+
   <div>手机号：<input type="number" formControlName="mobile"></div>
-  <div [hidden]="!formModel.hasError('mobile', 'mobile')">请输入正确的手机号</div>
+  <div [hidden]="formModel.get('mobile').valid || formModel.get('mobile').pristine">
+    <div [hidden]="!formModel.hasError('mobile', 'mobile')">请输入正确的手机号</div>
+  </div>
+  <div [hidden]="!formModel.get('mobile').pending">
+    正在校验手机号合法性
+  </div>
+
+
   <div formGroupName="passwordsGroup">
     <div>密码：<input type="password" formControlName="password"></div>
     <div [hidden]="!formModel.hasError('minlength', ['passwordsGroup', 'password'])">密码最小长度6</div>
@@ -18,5 +30,7 @@
       {{formModel.status}}
     </div>
   </div>
+
   <button type="submit">注册</button>
+
 </form>

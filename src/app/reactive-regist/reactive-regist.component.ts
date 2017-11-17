@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {equalValidate, mobileAsyncValidate, mobileValidate} from '../validator/validators';
+import {equalValidator, mobileAsyncValidator, mobileValidator} from '../validator/validators';
 
 @Component({
   selector: 'app-reactive-regist',
@@ -26,11 +26,11 @@ export class ReactiveRegistComponent implements OnInit {
     this.formModel = fb.group({
       // Validators是angular自带的校验器，提供一些基本校验方法
       username: ['', [Validators.required, Validators.minLength(6)]],
-      mobile: ['', mobileValidate, mobileAsyncValidate],
+      mobile: ['', mobileValidator, mobileAsyncValidator],
       passwordsGroup: fb.group({
         password: ['', Validators.minLength(6)],
         pconfirm: ['']
-      }, {validator: equalValidate}) // 给group加校验器，必须是个对象
+      }, {validator: equalValidator}) // 给group加校验器，必须是个对象
     });
   }
 

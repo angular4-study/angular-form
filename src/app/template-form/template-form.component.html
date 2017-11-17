@@ -1,10 +1,27 @@
-<form #myForm="ngForm" (ngSubmit)="onSubmit(myForm.value)">
-  <div>用户名：<input ngModel name="username" type="text"></div>
-  <div>手机号：<input ngModel name="mobile" type="number"></div>
-  <div ngModelGroup="pwdGroup">
-    <div>密码：<input ngModel name="pwd" type="password"></div>
-    <div>确认密码：<input ngModel name="pwdConfirm" type="password"></div>
+
+<!-- 用户名处的required是由Validator提供的内置校验方法，但是html元素也有叫
+ required的属性，所以在form上加一个novalidate，表示不需要浏览器的默认校验-->
+<form #myForm="ngForm" (ngSubmit)="onSubmit(myForm.value, myForm.valid)" novalidate>
+  <div>用户名：<input ngModel required minlength="6" name="username" type="text"></div>
+  <div [hidden]="!myForm.form.hasError('required', 'username')">
+    用户名必填
+  </div>
+  <div [hidden]="!myForm.form.hasError('minlength', 'username')">
+    用户名最小长度6
+  </div>
+  <div>手机号：<input ngModel appMobileValidator name="mobile" type="number"></div>
+  <div [hidden]="!myForm.form.hasError('mobile', 'mobile')">
+    请输入正确的手机号
+  </div>
+  <div ngModelGroup="pwdGroup" appEqualValidator>
+    <div>密码：<input ngModel minlength="6" name="password" type="password"></div>
+    <div [hidden]="!myForm.form.hasError('minlength', ['pwdGroup', 'password'])">
+      密码最小长度6
+    </div>
+    <div>确认密码：<input ngModel name="pconfirm" type="password"></div>
+    <div [hidden]="!myForm.form.hasError('pwdEqual', 'pwdGroup')">
+      {{myForm.form.getError('pwdEqual', 'pwdGroup')?.descPwd}}
+    </div>
   </div>
   <button type="submit">注册</button>
 </form>
-{{myForm.value | json}}
